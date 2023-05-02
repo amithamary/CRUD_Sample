@@ -24,11 +24,15 @@ public class StudentController {
     public Student getstudentById(@PathVariable int id){
         return studentService.getAllstudentById(id);
     }
+    @GetMapping("/getna/{name}")
+    public Student getstudentByName(@PathVariable String name){
+        return studentService.getAllstudentByName(name);
+    }
     @PutMapping("/put")
     public Student updateById(@RequestBody Student student){
         return studentService.updateById(student);
     }
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public String deleteById(@PathVariable int id){
         return studentService.deleteById(id);
     }

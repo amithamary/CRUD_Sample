@@ -1,5 +1,7 @@
 package com.UST.SamplePractice.service;
 
+import com.UST.SamplePractice.exception.IDNotFoundException;
+import com.UST.SamplePractice.exception.NameNotFoundException;
 import com.UST.SamplePractice.model.Student;
 import com.UST.SamplePractice.repository.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,18 @@ public class StudentService {
         return studentRepos.findAll();
     }
     public Student getAllstudentById(int id) {
-        return studentRepos.findById(id).orElse(null);
+        Optional<Student> s = studentRepos.findById(id);
+            if(s.isEmpty()){
+                throw new IDNotFoundException("ID not found");
+            }
+            else{
+                return s.get();
+            }
     }
 
 
     public String deleteById(int id) {
+        studentRepos.deleteById(id);
         return ("deleted");
     }
 
@@ -41,5 +50,15 @@ public class StudentService {
             return new Student();
         }
         return old;
+    }
+
+    public Student getAllstudentByName(String name) {
+        Optional<Student> student = studentRepos.findByName(name);
+        if(student.isEmpty()){
+            throw new NameNotFoundException("name not found");
+        }
+        else{
+            return student.get();
+        }
     }
 }
